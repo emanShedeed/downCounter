@@ -1,0 +1,33 @@
+import UIKit
+let futureDate: Date = {
+    var future = DateComponents( // it is el Maghrib parying time
+        year: 2020,
+        month: 4,
+        day: 23,
+        hour: 6,
+        minute: 1,
+        second: 0
+    )
+    return Calendar.current.date(from: future)!
+}()
+
+var countdown: DateComponents {
+    return Calendar.current.dateComponents([.day, .hour, .minute, .second], from: Date(), to: futureDate)
+}
+
+func updateTime() {
+    let countdown1 = countdown //only compute once per call
+    let days = countdown1.day!
+    let hours = countdown1.hour!
+    let minutes = countdown1.minute!
+    let seconds = countdown1.second!
+    print( String(format: "%02d:%02d:%02d",  hours, minutes, seconds))
+}
+
+func runCountdown() {
+    Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
+        updateTime()
+    }
+}
+
+runCountdown()
